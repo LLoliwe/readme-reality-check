@@ -33,7 +33,11 @@ These are **30 adversarial checks**, not 30 independent human or autonomous revi
 | 27 | Is QA versioned in source? | CI test workflow |
 | 28 | Can vulnerabilities be reported privately? | SECURITY.md |
 | 29 | Can community members contribute? | CONTRIBUTING.md |
-| 30 | Has human release review independently passed? | **HOLD until sign-off and hosted CI evidence** |
+| 30 | Has human release review independently passed? | **Hosted CI passed on initial commit. Founder authorized public alpha; independent external reviewer sign-off still absent.** |
 
 Use failures to change code, then retest. Do not count a checklist as independent expert review, or claim a GitHub badge before the check runs.
 
+
+## Publication classification
+
+Original, narrowly scoped open-source **alpha** authorized by the founder on 20 October 2026. Live production guarantees, external independent expert approvals, partnerships and star/adoption counts are **not** claimed. Re-run hosted checks on the final hardened commit before a public launch.

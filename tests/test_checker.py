@@ -134,6 +134,14 @@ class TestReadmeReality(unittest.TestCase):
         self.assertEqual(json.loads(out.getvalue())["summary"]["errors"], 0)
 
 
+
+    def test_npm_package_symlink_outside_root_not_read(self):
+        external = self.root.parent / (self.root.name + "_external_pkg.json")
+        external.write_text('{"scripts":{"live":"echo live"}}', encoding="utf-8")
+        self.addCleanup(lambda: external.unlink(missing_ok=True))
+        (self.root / "package.json").symlink_to(external)
+        self.assertEqual(self.codes("~~~sh\nnpm run live\n~~~"), [])
+
 if __name__ == "__main__":
     unittest.main()
 

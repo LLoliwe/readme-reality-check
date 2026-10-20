@@ -118,7 +118,7 @@ def commands(root, doc, lines, results):
                     results.append(Finding("error", "RRC103", display, number, f"Missing executable path: {key}"))
             elif tokens[:2] == ["npm", "run"] and len(tokens) >= 3:
                 package = cwd / "package.json"
-                if package.is_file():
+                if within(root, package) and package.is_file():
                     try:
                         scripts = json.loads(package.read_text(encoding="utf-8")).get("scripts", {})
                         if tokens[2] not in scripts:
