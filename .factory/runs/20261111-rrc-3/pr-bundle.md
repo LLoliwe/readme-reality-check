@@ -1,6 +1,6 @@
 ## Factory run `20261111-rrc-3`: APPROVE
 
-PRINCIPLES v1.5.0 read
+PRINCIPLES v1.7.0 read
 
 **Ticket:** #3  **State:** preview  **Rounds:** 2 of max 3  **Agent calls:** 13/20
 
@@ -28,7 +28,7 @@ exit 0
 ### Decision record
 `.factory/runs/20261111-rrc-3/adr.md`. Full verdicts in `round-1/`, `round-2/`, decision in `decision.json`.
 
-This is the first factory dry run (pryntor-agent-skills P79). Kept as a draft PR for the proof. Nothing has been merged. Only Lebo merges.
+This is the first factory dry run (pryntor-agent-skills P90). Kept as a draft PR for the proof. Nothing has been merged. Only Lebo merges.
 
 Closes #3
 
