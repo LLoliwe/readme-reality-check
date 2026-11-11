@@ -1,0 +1,52 @@
+{
+  "reviewer": "evidence",
+  "round": 2,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P13",
+      "status": "pass",
+      "evidence": "Independent rerun on 3.13.5: unittest discover exit 0 (33 OK); `python3 -m readme_reality --version` -> `readme-reality 0.1.0` exit 0; gitleaks git exit 0, no leaks; suite with sys.modules['tomllib']=None passes. Matches build-2.md. 3.10 honestly labelled ASSUMED pending CI (no 3.10 interpreter here)."
+    },
+    {
+      "id": "P36",
+      "status": "pass",
+      "evidence": "No dependency/datastore/service/integration/auth/agent-pattern change (diff: 3 files). Decisions with rejected alternatives and trade-offs recorded in build-1.md and build-2.md; decider stated (builder, Lebo final)."
+    },
+    {
+      "id": "P77",
+      "status": "n/a",
+      "evidence": "No generated media in diff."
+    },
+    {
+      "id": "P35",
+      "status": "pass",
+      "evidence": "Both commits authored `Lebohang Loliwe <lebo@pryntor.co.za>`; co-authored grep count 0."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "note",
+      "principle": "P13",
+      "where": "tests/test_version.py:2",
+      "issue": "Round-1 major fixed: no tomllib import; regex scoped to [project] and fails loudly if missing.",
+      "fix": "None."
+    },
+    {
+      "severity": "minor",
+      "principle": "P13",
+      "where": "build-2.md:Findings",
+      "issue": "Python 3.10 compatibility proved only by proxy (tomllib blocked), not on a real 3.10 interpreter.",
+      "fix": "Confirm via CI matrix on the draft PR before labelling verified."
+    },
+    {
+      "severity": "minor",
+      "principle": "P36",
+      "where": ".factory/runs/20261111-rrc-3/",
+      "issue": "Run adr.md with proved/assumed labels and Lebo-final decider not yet present; deferred to orchestrator.",
+      "fix": "Orchestrator writes adr.md and PR body ends with the credit line."
+    }
+  ],
+  "summary": "The round-1 tomllib major is fixed and all proof reruns clean. Remaining items are minor: real 3.10 proof via CI and the run ADR.",
+  "model": "claude-opus-4 (Quest subagent)"
+}

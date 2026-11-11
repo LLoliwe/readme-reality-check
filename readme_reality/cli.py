@@ -3,6 +3,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from . import __version__
 from .checker import scan_paths, SKIP_DIRS
 
 def sarif(findings):
@@ -24,6 +25,7 @@ def main(argv=None):
     parser.add_argument("--all", action="store_true", help="Check all Markdown excluding vendor and hidden directories")
     parser.add_argument("--no-snippets", action="store_true", help="Skip static shell quickstart checks")
     parser.add_argument("--strict", action="store_true", help="Fail on warnings as well as errors")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--format", choices=["text", "json", "sarif"], default="text")
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()

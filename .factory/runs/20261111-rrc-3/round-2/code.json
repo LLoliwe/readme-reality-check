@@ -1,0 +1,150 @@
+{
+  "reviewer": "code",
+  "round": 2,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P1",
+      "status": "pass",
+      "evidence": "Version lives in package root readme_reality/__init__.py:1; cli.py only imports it (cli.py:6)."
+    },
+    {
+      "id": "P2",
+      "status": "n/a",
+      "evidence": "No business logic or I/O added; argparse wiring only."
+    },
+    {
+      "id": "P3",
+      "status": "n/a",
+      "evidence": "No new untrusted input; --version takes no value."
+    },
+    {
+      "id": "P4",
+      "status": "pass",
+      "evidence": "New observable output 'readme-reality 0.1.0', exit 0; `python3 -m readme_reality --version` exit 0. Existing flags unchanged."
+    },
+    {
+      "id": "P5",
+      "status": "pass",
+      "evidence": "Stdlib argparse action='version', cli.py:28."
+    },
+    {
+      "id": "P6",
+      "status": "n/a",
+      "evidence": "No architectural change."
+    },
+    {
+      "id": "P7",
+      "status": "pass",
+      "evidence": "Uses stdlib argparse version action rather than custom code."
+    },
+    {
+      "id": "P8",
+      "status": "n/a",
+      "evidence": "No state or concurrency."
+    },
+    {
+      "id": "P9",
+      "status": "n/a",
+      "evidence": "No state changes needing invariants."
+    },
+    {
+      "id": "P10",
+      "status": "n/a",
+      "evidence": "No loops, batches or agent runs added."
+    },
+    {
+      "id": "P11",
+      "status": "n/a",
+      "evidence": "No parser, money or state machine added."
+    },
+    {
+      "id": "P12",
+      "status": "pass",
+      "evidence": "Output is a constant string; no clock or randomness."
+    },
+    {
+      "id": "P13",
+      "status": "pass",
+      "evidence": "Independently ran suite round 2: Ran 33, OK, exit 0 (3.13.5). Not run on 3.10 locally (no interpreter); ruff/mypy not installed."
+    },
+    {
+      "id": "P14",
+      "status": "pass",
+      "evidence": "Round-1 major fixed: tests/test_version.py:2 now imports re, not tomllib; regex scoped to [project] table with explicit assertIsNotNone. Works on 3.10 (pyproject requires-python >=3.10, ci.yml:13). `python3 -m unittest discover -s tests` Ran 33 OK exit 0."
+    },
+    {
+      "id": "P15",
+      "status": "pass",
+      "evidence": "Single __version__ in __init__.py:1; CLI imports it; test pins it to pyproject.toml:7 version = \"0.1.0\". pyproject remains a second literal, mitigated by the drift test."
+    },
+    {
+      "id": "P16",
+      "status": "n/a",
+      "evidence": "No mutations."
+    },
+    {
+      "id": "P17",
+      "status": "n/a",
+      "evidence": "No concurrent writes."
+    },
+    {
+      "id": "P18",
+      "status": "n/a",
+      "evidence": "No schema."
+    },
+    {
+      "id": "P19",
+      "status": "n/a",
+      "evidence": "No data fields."
+    },
+    {
+      "id": "P20",
+      "status": "n/a",
+      "evidence": "No external calls."
+    },
+    {
+      "id": "P21",
+      "status": "pass",
+      "evidence": "No except or fallback added in diff."
+    },
+    {
+      "id": "P22",
+      "status": "pass",
+      "evidence": "argparse exits SystemExit(0); no swallowed errors."
+    },
+    {
+      "id": "P23",
+      "status": "n/a",
+      "evidence": "No service/SLO surface."
+    },
+    {
+      "id": "P24",
+      "status": "n/a",
+      "evidence": "No operational toil change."
+    },
+    {
+      "id": "P25",
+      "status": "pass",
+      "evidence": "3 files, +29/-1 (git diff --stat main...HEAD); only additive CLI flag."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "principle": "P13",
+      "where": "build-2.md (Proof)",
+      "issue": "Still no local 3.10 run or ruff/mypy output; 3.10 compatibility verified by reading only.",
+      "fix": "Let CI on the draft PR confirm the 3.10 leg before merge."
+    },
+    {
+      "severity": "note",
+      "principle": "P4",
+      "where": "readme_reality/cli.py:28",
+      "issue": "main(['--version']) raises SystemExit(0) per argparse convention; tested.",
+      "fix": "None required."
+    }
+  ],
+  "summary": "The round-1 tomllib issue is fixed with a scoped stdlib regex, so the test now runs on Python 3.10 too. Suite is green locally; only remaining gap is that the 3.10 leg is proved by CI, not here.",
+  "model": "claude-opus-4 (Quest subagent)"
+}

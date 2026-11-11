@@ -1,0 +1,59 @@
+{
+  "reviewer": "evidence",
+  "round": 1,
+  "verdict": "CHANGES",
+  "gates": [
+    {
+      "id": "P13",
+      "status": "pass",
+      "evidence": "Independent rerun: `python3 -m unittest discover -s tests` exit 0 (33 OK, Python 3.13.5); `python3 -m readme_reality --version` prints `readme-reality 0.1.0`, exit 0; `/tmp/quest/agent/gitleaks git . --no-banner` exit 0, no leaks. All match build-1.md Proof table. Label honest: commit not pushed, console script explicitly marked not exercised."
+    },
+    {
+      "id": "P36",
+      "status": "pass",
+      "evidence": "Diff adds no dependency, datastore, service, integration, auth change or agent pattern (git diff main...HEAD: 3 files +29/-1), so ADR gate not triggered. Decisions recorded in build-1.md 'Decisions' with why and rejected alternatives. Run-level adr.md not yet present (expected at decision stage per P78)."
+    },
+    {
+      "id": "P77",
+      "status": "n/a",
+      "evidence": "No generated media in diff; no media-manifest.csv needed."
+    },
+    {
+      "id": "P35",
+      "status": "pass",
+      "evidence": "Commit d0e4c54 author `Lebohang Loliwe <lebo@pryntor.co.za>`; `git log --format=%B main..HEAD | grep -ic co-authored` = 0."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "principle": "P13",
+      "where": "tests/test_version.py:2",
+      "issue": "Test imports stdlib `tomllib` (Python 3.11+) but pyproject.toml:10 declares `requires-python = \">=3.10\"`. On a supported 3.10 interpreter the whole test module fails with ModuleNotFoundError, breaking 'existing tests still pass'. The green run was only proved on 3.13.5; build-1.md itself notes the 3.11+ requirement without resolving it.",
+      "fix": "Read the pyproject version without tomllib (e.g. regex on the `version = \"...\"` line under [project]), or guard with try/except ImportError + skipUnless, or raise requires-python to >=3.11 with a recorded decision. Rerun the suite on 3.10 if available."
+    },
+    {
+      "severity": "minor",
+      "principle": "P36",
+      "where": ".factory/runs/20261111-rrc-3/build-1.md:Decisions",
+      "issue": "Decisions lack 'who decided' (Lebo final) and evidence labelled proved/assumed.",
+      "fix": "Carry these into the run adr.md with decider and proved/assumed labels."
+    },
+    {
+      "severity": "note",
+      "principle": "P13",
+      "where": "readme_reality/cli.py:28",
+      "issue": "Mental revert check: removing the --version line makes argparse exit 2, failing test_version_flag (build report's red run confirms exit 2). Removing __version__ fails both tests. Tests genuinely exercise the acceptance criteria.",
+      "fix": "None."
+    },
+    {
+      "severity": "note",
+      "principle": "P35",
+      "where": "commit d0e4c54 message",
+      "issue": "Commit body has no credit line; P35 requires it in the PR body, not commits.",
+      "fix": "Ensure the draft PR body ends with the credit line."
+    }
+  ],
+  "summary": "Proof reproduces exactly: tests, CLI output and gitleaks all exit 0 and the tests would catch a revert. One major: the new test uses tomllib, which breaks the suite on Python 3.10 that pyproject still claims to support.",
+  "model": "claude-opus-4 (Quest subagent)"
+}

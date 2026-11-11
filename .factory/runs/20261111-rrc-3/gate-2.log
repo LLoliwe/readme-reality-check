@@ -1,0 +1,7 @@
+$ python3 -m unittest discover -s tests
+Ran 33 tests in 0.015s
+OK
+exit 0
+$ gitleaks git . --no-banner
+9:12PM INF no leaks found
+exit 0

@@ -1,0 +1,75 @@
+{
+  "reviewer": "ux",
+  "round": 1,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P59",
+      "status": "pass",
+      "evidence": "`python3 -m readme_reality --version` prints `readme-reality 0.1.0`, exit 0; plain and true, matches pyproject (tests/test_version.py:18-21)."
+    },
+    {
+      "id": "P60",
+      "status": "n/a",
+      "evidence": "CLI flag only, no UI flow; operator experience judged via help/output instead."
+    },
+    {
+      "id": "P61",
+      "status": "n/a",
+      "evidence": "No visual surface or brand asset in diff (3 Python files)."
+    },
+    {
+      "id": "P62",
+      "status": "n/a",
+      "evidence": "Instant local print and exit; no waiting states."
+    },
+    {
+      "id": "P63",
+      "status": "pass",
+      "evidence": "Flag appears in `--help` with argparse default text \"show program's version number and exit\"; output feedback tested at tests/test_version.py:11-16."
+    },
+    {
+      "id": "P64",
+      "status": "pass",
+      "evidence": "Single source of truth `readme_reality/__init__.py:1`, drift guarded by pyproject test; no second copy in cli.py:28 (`%(prog)s {__version__}`)."
+    },
+    {
+      "id": "P65",
+      "status": "pass",
+      "evidence": "One standard flag, conventional name and output format `<prog> <version>`."
+    },
+    {
+      "id": "P66",
+      "status": "n/a",
+      "evidence": "No touch targets or screen layout."
+    },
+    {
+      "id": "P73",
+      "status": "n/a",
+      "evidence": "No user research claim in this change."
+    },
+    {
+      "id": "P74",
+      "status": "n/a",
+      "evidence": "No public claims; build-1.md states proof with exit codes and notes the console script was not exercised."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "note",
+      "principle": "P63",
+      "where": "build-1.md (Proof)",
+      "issue": "Installed `readme-reality` console script not exercised, only the module entry point.",
+      "fix": "Optionally run `pip install -e . && readme-reality --version` before the PR is marked ready."
+    },
+    {
+      "severity": "minor",
+      "principle": "P64",
+      "where": "tests/test_version.py:2",
+      "issue": "`tomllib` needs Python 3.11+; on older Pythons the whole test module errors instead of a clear skip.",
+      "fix": "Confirm pyproject requires-python >=3.11, or skip the pyproject test when tomllib is missing."
+    }
+  ],
+  "summary": "The --version flag is plain, conventional and tested through main(), with one source of truth for the version. No blockers; two small notes on the console-script check and tomllib's Python floor.",
+  "model": "claude-opus-4 (Quest subagent)"
+}
