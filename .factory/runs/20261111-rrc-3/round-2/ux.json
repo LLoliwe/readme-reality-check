@@ -1,0 +1,68 @@
+{
+  "reviewer": "ux",
+  "round": 2,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P59",
+      "status": "pass",
+      "evidence": "`--version` prints `readme-reality 0.1.0`, exit 0 (build-2.md Proof; tests/test_version.py:11-16)."
+    },
+    {
+      "id": "P60",
+      "status": "n/a",
+      "evidence": "CLI flag only, no UI flow."
+    },
+    {
+      "id": "P61",
+      "status": "n/a",
+      "evidence": "No visual or brand surface in diff."
+    },
+    {
+      "id": "P62",
+      "status": "n/a",
+      "evidence": "Instant print and exit."
+    },
+    {
+      "id": "P63",
+      "status": "pass",
+      "evidence": "Round-1 note fixed: installed console script run in venv, `readme-reality --version` exit 0 (build-2.md). `--help` lists `--version  show program's version number and exit`."
+    },
+    {
+      "id": "P64",
+      "status": "pass",
+      "evidence": "Round-1 minor fixed: tomllib import removed (tests/test_version.py:2,20-25), suite imports on requires-python >=3.10 (pyproject.toml:10); clear assert messages if [project]/version missing (lines 23,25)."
+    },
+    {
+      "id": "P65",
+      "status": "pass",
+      "evidence": "One conventional flag, standard `<prog> <version>` output."
+    },
+    {
+      "id": "P66",
+      "status": "n/a",
+      "evidence": "No touch targets or layout."
+    },
+    {
+      "id": "P73",
+      "status": "n/a",
+      "evidence": "No research claim."
+    },
+    {
+      "id": "P74",
+      "status": "n/a",
+      "evidence": "No public claims; build-2.md labels 3.10 as ASSUMED until CI."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "note",
+      "principle": "P64",
+      "where": "tests/test_version.py:24",
+      "issue": "Regex only matches a plain double-quoted version; a dynamic or single-quoted version fails the test loudly.",
+      "fix": "None needed now; failure message is clear."
+    }
+  ],
+  "summary": "Both round-1 findings are fixed and the flag stays plain, conventional and tested. No blockers or majors.",
+  "model": "claude-opus-4 (Quest subagent)"
+}

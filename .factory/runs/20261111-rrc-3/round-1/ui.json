@@ -1,0 +1,108 @@
+{
+  "reviewer": "ui",
+  "round": 1,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P49",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P50",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P51",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P52",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P53",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P54",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P55",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P56",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P57",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P58",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P67",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P68",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P69",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P70",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P71",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P75",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "P76",
+      "status": "n/a",
+      "evidence": "n/a: diff is CLI-only (readme_reality/__init__.py, cli.py, tests/test_version.py); no HTML/CSS/visual or interactive UI surface"
+    },
+    {
+      "id": "brand",
+      "status": "pass",
+      "evidence": "no visual assets or media added (git diff main...HEAD --stat: 3 .py files); CLI text output 'readme-reality 0.1.0' verified via `python3 -m readme_reality --version` exit 0"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "note",
+      "principle": "P49",
+      "where": "readme_reality/cli.py:28",
+      "issue": "Only user-facing surface is the --version text line; consistent with existing argparse help style.",
+      "fix": "None needed."
+    }
+  ],
+  "summary": "The diff adds a CLI --version flag with no visual UI surface, so visual gates are n/a. Nothing visual was added unasked and the output text matches the ticket.",
+  "model": "claude-opus-4"
+}

@@ -1,0 +1,95 @@
+{
+  "reviewer": "security",
+  "round": 1,
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "P26",
+      "status": "n/a",
+      "evidence": "Diff adds no tokens, services, agents or capabilities; only a static string and argparse flag (readme_reality/cli.py:28)."
+    },
+    {
+      "id": "P27",
+      "status": "pass",
+      "evidence": "No eval/exec/subprocess added; `git diff main...HEAD` touches only __init__.py, cli.py, tests/test_version.py. Ticket UNTRUSTED block treated as data; no instructions in it acted on beyond the brief."
+    },
+    {
+      "id": "P28",
+      "status": "pass",
+      "evidence": "`/tmp/quest/agent/gitleaks git . --no-banner` exit 0: '2 commits scanned ... no leaks found'. Matches gate-1.log."
+    },
+    {
+      "id": "P29",
+      "status": "pass",
+      "evidence": "No new dependencies; tests/test_version.py uses stdlib only (io, tomllib, unittest, contextlib, pathlib). pyproject.toml unchanged in diff."
+    },
+    {
+      "id": "P30",
+      "status": "n/a",
+      "evidence": "No web/API surface added; local CLI version flag only."
+    },
+    {
+      "id": "P40",
+      "status": "n/a",
+      "evidence": "--version is a read-only constant output via argparse action='version'; no new data store, integration, agent tool or PI. Not a meaningful new entry point needing an ADR."
+    },
+    {
+      "id": "P41",
+      "status": "n/a",
+      "evidence": "No web app/API; no traveller or health data."
+    },
+    {
+      "id": "P42",
+      "status": "n/a",
+      "evidence": "No endpoints, objects by ID, or LLM I/O in the diff."
+    },
+    {
+      "id": "P43",
+      "status": "n/a",
+      "evidence": "No routes, tables, credentials, SQL, shell or HTML built."
+    },
+    {
+      "id": "P44",
+      "status": "pass",
+      "evidence": "gitleaks exit 0 (above); no env values echoed. CI workflow/push-protection setting not checked (read-only, no GitHub access) \u2014 release-time item."
+    },
+    {
+      "id": "P45",
+      "status": "not-checked",
+      "evidence": "Semgrep/Bandit/pip-audit/osv-scanner not available locally and no CI run (not pushed). Diff contains no code paths these would flag; must run in pryntor-security workflow on the draft PR."
+    },
+    {
+      "id": "P46",
+      "status": "pass",
+      "evidence": "build-1.md: `python3 -m readme_reality --version` -> 'readme-reality 0.1.0' exit 0; installed console script not exercised (noted)."
+    },
+    {
+      "id": "P47",
+      "status": "n/a",
+      "evidence": "No pentest scope implicated by a version flag."
+    },
+    {
+      "id": "P48",
+      "status": "n/a",
+      "evidence": "No logging added; output is package name and version only, no PI."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "note",
+      "principle": "P29",
+      "where": "tests/test_version.py:2",
+      "issue": "Test imports tomllib (Python 3.11+) but pyproject.toml:10 declares requires-python >=3.10; suite will error on 3.10. Not a security issue; correctness/compat.",
+      "fix": "Bump requires-python to >=3.11 or skip the pyproject test when tomllib is unavailable."
+    },
+    {
+      "severity": "note",
+      "principle": "P45",
+      "where": "n/a",
+      "issue": "SAST/dependency scans not run locally.",
+      "fix": "Confirm pryntor-security workflow is green on the draft PR before merge."
+    }
+  ],
+  "summary": "The diff adds a static --version flag and a stdlib-only test with no new dependencies, entry-point risk, secrets or PI; gitleaks is clean. Only notes: a Python 3.10 compatibility gap from tomllib and CI scans still to run on the PR.",
+  "model": "claude-opus-4 (Quest subagent)"
+}

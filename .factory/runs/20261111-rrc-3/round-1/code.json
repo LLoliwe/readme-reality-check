@@ -1,0 +1,157 @@
+{
+  "reviewer": "code",
+  "round": 1,
+  "verdict": "CHANGES",
+  "gates": [
+    {
+      "id": "P1",
+      "status": "pass",
+      "evidence": "Version lives in package root readme_reality/__init__.py:1; cli.py only imports it (cli.py:6)."
+    },
+    {
+      "id": "P2",
+      "status": "n/a",
+      "evidence": "No business logic or I/O added; argparse wiring only."
+    },
+    {
+      "id": "P3",
+      "status": "n/a",
+      "evidence": "No new untrusted input; --version takes no value."
+    },
+    {
+      "id": "P4",
+      "status": "pass",
+      "evidence": "New observable output 'readme-reality 0.1.0', exit 0; `python3 -m readme_reality --version` exit 0. Existing flags unchanged."
+    },
+    {
+      "id": "P5",
+      "status": "pass",
+      "evidence": "Stdlib argparse action='version', cli.py:28."
+    },
+    {
+      "id": "P6",
+      "status": "n/a",
+      "evidence": "No architectural change."
+    },
+    {
+      "id": "P7",
+      "status": "pass",
+      "evidence": "Uses stdlib argparse version action rather than custom code."
+    },
+    {
+      "id": "P8",
+      "status": "n/a",
+      "evidence": "No state or concurrency."
+    },
+    {
+      "id": "P9",
+      "status": "n/a",
+      "evidence": "No state changes needing invariants."
+    },
+    {
+      "id": "P10",
+      "status": "n/a",
+      "evidence": "No loops, batches or agent runs added."
+    },
+    {
+      "id": "P11",
+      "status": "n/a",
+      "evidence": "No parser, money or state machine added."
+    },
+    {
+      "id": "P12",
+      "status": "pass",
+      "evidence": "Output is a constant string; no clock or randomness."
+    },
+    {
+      "id": "P13",
+      "status": "pass",
+      "evidence": "Independently ran `python3 -m unittest discover -s tests` -> Ran 33, OK, exit 0 (Python 3.13.5). ruff/mypy not installed here: not run."
+    },
+    {
+      "id": "P14",
+      "status": "fail",
+      "evidence": "tests/test_version.py:2 `import tomllib` (3.11+) while pyproject.toml:10 `requires-python = \">=3.10\"` and .github/workflows/ci.yml:13 matrix includes \"3.10\": module import error fails the suite on a supported version."
+    },
+    {
+      "id": "P15",
+      "status": "pass",
+      "evidence": "Single __version__ in __init__.py:1; CLI imports it; test pins it to pyproject.toml:7 version = \"0.1.0\". pyproject remains a second literal, mitigated by the drift test."
+    },
+    {
+      "id": "P16",
+      "status": "n/a",
+      "evidence": "No mutations."
+    },
+    {
+      "id": "P17",
+      "status": "n/a",
+      "evidence": "No concurrent writes."
+    },
+    {
+      "id": "P18",
+      "status": "n/a",
+      "evidence": "No schema."
+    },
+    {
+      "id": "P19",
+      "status": "n/a",
+      "evidence": "No data fields."
+    },
+    {
+      "id": "P20",
+      "status": "n/a",
+      "evidence": "No external calls."
+    },
+    {
+      "id": "P21",
+      "status": "pass",
+      "evidence": "No except or fallback added in diff."
+    },
+    {
+      "id": "P22",
+      "status": "pass",
+      "evidence": "argparse exits SystemExit(0); no swallowed errors."
+    },
+    {
+      "id": "P23",
+      "status": "n/a",
+      "evidence": "No service/SLO surface."
+    },
+    {
+      "id": "P24",
+      "status": "n/a",
+      "evidence": "No operational toil change."
+    },
+    {
+      "id": "P25",
+      "status": "pass",
+      "evidence": "3 files, +29/-1 (git diff --stat main...HEAD); only additive CLI flag."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "principle": "P14",
+      "where": "tests/test_version.py:2",
+      "issue": "`import tomllib` is Python 3.11+, but the project supports >=3.10 and CI tests 3.10; the whole test module will fail to import there, turning CI red.",
+      "fix": "Either guard the pyproject test (`try: import tomllib except ModuleNotFoundError: tomllib = None` plus `@unittest.skipIf(tomllib is None, ...)`), or parse the version line with a simple regex on pyproject.toml, or raise requires-python and the CI matrix to 3.11 (a product decision for Lebo)."
+    },
+    {
+      "severity": "minor",
+      "principle": "P13",
+      "where": "build-1.md (Proof)",
+      "issue": "Proof covers only Python 3.13 and no ruff/mypy run; the 3.10 break was not caught.",
+      "fix": "Run the suite on every CI matrix version (or push to CI on the draft PR) and include linter output."
+    },
+    {
+      "severity": "note",
+      "principle": "P4",
+      "where": "readme_reality/cli.py:28",
+      "issue": "main(['--version']) raises SystemExit(0) instead of returning 0; documented and tested, acceptable for argparse convention.",
+      "fix": "None required."
+    }
+  ],
+  "summary": "The --version flag is small, correct and uses a single source of truth, and the suite passes on Python 3.13. The new test imports tomllib, which breaks on Python 3.10 that the project and CI still support, so it needs a fix before PR.",
+  "model": "claude-opus-4 (Quest subagent)"
+}
